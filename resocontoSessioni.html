@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resoconto Sessioni</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Resoconto delle Sessioni</h1>
+        <p>Qui puoi visualizzare il riepilogo delle sessioni di coaching.</p>
+    </header>
+
+    <main>
+        <div id="sessionReports" style="white-space: pre-wrap; background-color: #f9f9f9; padding: 15px; border-radius: 5px; min-height: 200px;">
+            Caricamento resoconti...
+        </div>
+    </main>
+
+    <footer>
+        <button id="backToIndex4" onclick="location.href='adeguamentoContesto.html'">Torna alla modifica del contesto</button>
+        <button id="backToIndex" onclick="location.href='index.html'">Torna a Index</button>
+    </footer>
+
+    <script>
+        // Carica il resoconto delle sessioni
+        document.addEventListener("DOMContentLoaded", function () {
+            let reports = localStorage.getItem("sessionReports") || "Nessun resoconto disponibile.";
+            document.getElementById("sessionReports").textContent = reports;
+        });
+    </script>
+
+</body>
+</html>
