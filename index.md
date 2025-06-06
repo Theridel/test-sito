@@ -1,5 +1,4 @@
 ---
-title: Welcome to my blog!
-It's my test site
+title: Welcome to my test!
 ---
 
