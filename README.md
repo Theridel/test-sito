@@ -1,4 +1,4 @@
-# Congratulations! :tada:
+# Congratulations! 
 
 <img src="https://octodex.github.com/images/welcometocat.png" align="right" height="250px" />
 
@@ -18,3 +18,4 @@ Did you enjoy this practical style of learning? There's no better way to learn t
 
 Let's keep the momentum going! Head over to [GitHub Skills](https://skills.github.com) catalog to find another hands-on exercise. :rocket:
 
+E inizio a scrivere
