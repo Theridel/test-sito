@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coaching con Bot AI - Theridel</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
@@ -82,12 +82,14 @@
 
         // Genera il testo da copiare per Bot AI
         function generateExport() {
+        const aiDirectives = document.getElementById('aiInstructions').value;
         const context = document.getElementById('generalContext').value;
         const lastSession = document.getElementById('lastSessionNotes').value;
         const questions = document.getElementById('questionsForNext').value;
 
     let exportText = "### CONTESTO PER Bot AI ###\n";
-    exportText += "**Nota**: Durante la conversazione, chiamami Theridel.\n\n";
+    
+    exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
 
     exportText += "## Ambiente di lavoro ##\n";
     exportText += "Sto utilizzando una soluzione web-based composta da:\n";
