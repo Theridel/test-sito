@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Stile per la sezione Direttive AI */
+#aiDirectives {
+    background-color: #e3f2fd;
+    border: 2px solid #4CAF50;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+
+#backButton:hover {
+    background-color: #218838;
+}
+
+#backToIndex {
+    position: fixed; /* Fissa il pulsante nella finestra */
+    bottom: 20px; /* Posizionamento dalla parte bassa dello schermo */
+    right: 20px; /* Allineamento a destra */
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Assicura che il pulsante rimanga sopra agli altri elementi */
+}
+
+#backToIndex:hover {
+    background-color: #45a049;
+}
