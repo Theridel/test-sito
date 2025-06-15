@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coaching con Bot AI - Theridel</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Percorso di coaching con Bot AI</h1>
+        <p>Una piattaforma per mantenere il contesto delle conversazioni con Bot AI</p>
+    </header>
+
+   <section id="aiDirectives">
+       <h2>Direttive AI</h2>
+       <textarea id="aiInstructions" placeholder="Inserisci qui le istruzioni operative per Bot AI..."></textarea>
+       <button onclick="saveAiDirectives()">Salva Direttive</button>
+   </section>
+
+    <section id="context">
+        <h2>Contesto Generale</h2>
+        <textarea id="generalContext" placeholder="Inserisci qui gli obiettivi generali del tuo percorso..."></textarea>
+        <button onclick="saveContext()">Salva Contesto</button>
+    </section>
+
+    <section id="lastSession">
+        <h2>Ultima Sessione</h2>
+        <textarea id="lastSessionNotes" placeholder="Copia qui le note dall'ultima sessione con Bot AI..."></textarea>
+        <button onclick="saveLastSession()">Salva Sessione</button>
+        <button onclick="location.href='resocontoSessioni.html'">Vai al Resoconto delle Sessioni</button>
+    </section>
+
+    <section id="nextQuestions">
+        <h2>Domande per la Prossima Sessione</h2>
+        <textarea id="questionsForNext" placeholder="Inserisci le domande per la prossima sessione..."></textarea>
+        <button onclick="saveQuestions()">Salva Domande</button>
+    </section>
+
+    <section id="exportSection">
+        <h2>Esporta Contesto per Bot AI</h2>
+        <button onclick="generateExport()">Genera Testo da Copiare</button>
+        <div id="exportResult" style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px; display: none;">
+            <h3>Copia questo testo all'inizio della prossima conversazione con Bot AI:</h3>
+            <div id="exportText" style="white-space: pre-wrap; background-color: #eee; padding: 15px; border-radius: 5px;"></div>
+            <button onclick="copyToClipboard()" style="margin-top: 10px;">Copia negli Appunti</button>
+        </div>
+    </section>
+
+    <script>
+        // Carica i dati salvati quando la pagina si apre
+           window.onload = function() {
+       document.getElementById('aiInstructions').value = localStorage.getItem('aiInstructions') || '';
+       document.getElementById('generalContext').value = localStorage.getItem('generalContext') || '';
+       document.getElementById('lastSessionNotes').value = localStorage.getItem('lastSessionNotes') || '';
+       document.getElementById('questionsForNext').value = localStorage.getItem('questionsForNext') || '';
+       };
+
+
+        // Funzioni per salvare i dati
+           function saveAiDirectives() {
+              localStorage.setItem('aiInstructions', document.getElementById('aiInstructions').value);
+              alert('Direttive AI salvate!');
+           }
+
+           function saveContext() {
+              localStorage.setItem('generalContext', document.getElementById('generalContext').value);
+              alert('Contesto salvato!');
+           }
+
+           function saveLastSession() {
+              localStorage.setItem('lastSessionNotes', document.getElementById('lastSessionNotes').value);
+              alert('Note dell\'ultima sessione salvate!');
+           }
+
+           function saveQuestions() {
+              localStorage.setItem('questionsForNext', document.getElementById('questionsForNext').value);
+              alert('Domande salvate!');
+           }
+
+        // Genera il testo da copiare per Bot AI
+        function generateExport() {
+        const aiDirectives = document.getElementById('aiInstructions').value;
+        const context = document.getElementById('generalContext').value;
+        const lastSession = document.getElementById('lastSessionNotes').value;
+        const questions = document.getElementById('questionsForNext').value;
+
+    let exportText = "   # CONTESTO PER Bot AI #\n";
+    
+    exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
+
+    exportText += "## Obiettivo del sistema ##\n";
+    exportText += "Costruire un sistema che permetta di mantenere il contesto tra diverse sessioni di coaching, con me (Bot AI) e con te (Theridel) al centro dell’esperienza, evitando soluzioni che richiedano l’installazione di software desktop.\n\n";
+
+    exportText += "## Contesto Generale ##\n" + context + "\n\n";
+          
+    exportText += "## Soluzioni esplorate ##\n";
+    exportText += "1. **Documento Google**: repository centrale con copia manuale del contesto.\n";
+    exportText += "2. **Pagina HTML5 locale**: utilizza `localStorage`, accessibile da qualsiasi dispositivo, con interfaccia user-friendly.\n\n";
+
+    exportText += "## Caratteristiche della soluzione attuale ##\n";
+    exportText += "- Salvataggio persistente dei dati nel browser.\n";
+    exportText += "- Sezioni dedicate per contesto, note e domande.\n";
+    exportText += "- Generazione automatica del testo da incollare all’inizio di ogni sessione.\n";
+    exportText += "- Funzione di copia negli appunti con un clic.\n";
+    exportText += "- Design responsive.\n\n";
+
+        exportText += "## Ultima Sessione ##\n" + lastSession + "\n\n";
+    exportText += "## Domande per Questa Sessione ##\n" + questions + "\n\n";
+
+    exportText += "### FINE CONTESTO ###\n\n";
+    exportText += "Per favore, considera il contesto sopra e aiutami con le domande elencate.";
+
+    document.getElementById('exportText').textContent = exportText;
+    document.getElementById('exportResult').style.display = 'block';
+}
+
+
+        // Copia il testo negli appunti
+        function copyToClipboard() {
+            const exportText = document.getElementById('exportText').textContent;
+            navigator.clipboard.writeText(exportText).then(function() {
+                alert('Testo copiato negli appunti!');
+            }, function() {
+                alert('Errore durante la copia. Prova a selezionare e copiare manualmente.');
+            });
+        }
+    </script>
+<button id="backToIndex" onclick="location.href='index.html'">Torna a Index</button>
+</body>
+</html>

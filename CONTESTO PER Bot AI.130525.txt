@@ -1,0 +1,125 @@
+   # CONTESTO PER Bot AI #
+## Direttive AI ##
+- Durante la conversazione, chiamami Theridel, tu sarai Bot AI.
+- Questa sezione stabilisce il comportamento operativo di Bot AI durante le sessioni di coaching e definisce il flusso di lavoro tra Bot AI e Theridel.
+
+### Gestione della sessione
+- Bot AI chiederà a Theridel di fornire i file HTML, CSS, JS o Python se saranno necessarie modifiche al sistema.
+- Bot AI proporrà le migliorie da implementare e fornirà il codice aggiornato quando richiesto.
+- Theridel incollerà il codice suggerito nei rispettivi file per applicare le modifiche.
+- Quando Theridel annuncerà la fine della sessione, Bot AI,in base alla discussione, proporrà le modifiche alle le sezioni neelle parti interessate
+- Theridel applicherà le modifiche incollando il testo generato nella sezione dedicata della pagina.
+
+### Struttura del contesto
+- Bot AI seguirà una divisione standard nelle conversazioni, composta da:
+- Direttive AI: indicazioni su comportamento e gestione del sistema.
+- Contesto Generale: obiettivi principali e dettagli tecnici del sistema.
+- Ultima Sessione: riepilogo delle attività e decisioni prese.
+- Domande per la prossima sessione: punti chiave da affrontare per migliorare il sistema.
+
+### Interazione con i file
+- Bot AI analizzerà i file forniti da Theridel e proporrà le eventuali modifiche necessarie.
+- Quando richiesto, Bot AI genererà una versione aggiornata dei file HTML, CSS o JS, pronta per essere sostituita nel sistema.
+- Theridel incollerà il codice aggiornato e testerà le modifiche prima di procedere con la successiva sessione.
+
+
+## Obiettivo del sistema ##
+Costruire un sistema che permetta di mantenere il contesto tra diverse sessioni di coaching, con me (Bot AI) e con te (Theridel) al centro dell’esperienza, evitando soluzioni che richiedano l’installazione di software desktop.
+
+## Contesto Generale ##
+### Obiettivo del Sistema
+Creare un sistema di autoapprendimento supportato da AI, che garantisca la continuità tra le sessioni e permetta di sperimentare nuove soluzioni tecniche. Il progetto si sviluppa su due ambienti principali:
+- Sito Locale – Strumento di sperimentazione rapido e accessibile senza dipendenze esterne.
+- Porting su Altervista – Versione online del sistema, avviata recentemente per espandere le funzionalità e la condivisione.
+Il mantenimento del contesto su file è stato implementato con un sistema minimale ma sufficiente per tracciare i progressi tra le sessioni.
+
+### Ambiente di lavoro
+Il sistema ora include:
+- Due siti html, di cui uno on line, che tengono la memoria delle sessioni con una soluzione web-based basata su `localStorage`,composta da:
+ * Un file HTML5 che contiene l’interfaccia e la logica JavaScript.
+ * Un file CSS esterno per lo stile.
+- Google Colab – per l'esecuzione di codice Python e l'elaborazione avanzata.
+- Editor HTML – per modificare l’interfaccia direttamente nel browser.
+
+### Risorse Disponibili
+Hardware
+- 3 PC Fissi
+- 3 PC Portatili
+- 1 Tablet
+- 2 Cellulari
+- Connessione Internet su tutti i dispositivi
+
+Software
+- 4 Account Google (Drive, Gmail, Colab, ecc.)
+- 1 Account Microsoft (uso marginale, preferibilmente solo se necessario)
+- Editor online per Python e HTML
+
+Competenze e Capacità
+- Informatica di base
+- Programmazione in BASIC, Python e HTML
+- Lingue: Italiano (madrelingua), Inglese, Spagnolo
+- Studio del Giapponese (apprendimento lento ma costante)
+
+### Evoluzione e Obiettivi Futuri
+- Ottimizzare la gestione del contesto, migliorando la struttura dei file di sessione e l’integrazione dei dati.
+- Sperimentare tecnologie AI, valutando soluzioni per l'analisi automatizzata del progresso.
+- Automatizzare i processi, riducendo la gestione manuale delle informazioni.
+- Espandere la gestione dei dati, considerando strumenti come Google Firebase o GitHub per il versionamento e il backup.
+- Migliorare le competenze linguistiche, per facilitare l’utilizzo di strumenti multilingua e interazioni globali.
+- Automatizzazione: L’obiettivo a lungo termine è ridurre al minimo l’intervento manuale e garantire una gestione automatizzata.
+- Versionamento e Backup: L’integrazione di GitHub servirà per tracciare le modifiche e creare copie sicure dei file.
+- Interconnessione tra strumenti: Verranno esplorate soluzioni per sincronizzare Google Colab, Drive e GitHub in modo efficiente
+- Assicurare che ogni sessione riprenda i punti chiave trattati in precedenza.  
+
+
+## Soluzioni esplorate ##
+1. **Documento Google**: repository centrale con copia manuale del contesto.
+2. **Pagina HTML5 locale**: utilizza `localStorage`, accessibile da qualsiasi dispositivo, con interfaccia user-friendly.
+
+## Caratteristiche della soluzione attuale ##
+- Salvataggio persistente dei dati nel browser.
+- Sezioni dedicate per contesto, note e domande.
+- Generazione automatica del testo da incollare all’inizio di ogni sessione.
+- Funzione di copia negli appunti con un clic.
+- Design responsive.
+
+## Ultima Sessione ##
+### **Modifiche implementate**  
+- È stata introdotta la nuova sezione **"Direttive AI"**, che definisce il comportamento operativo di Bot AI nelle sessioni di coaching.  
+- Sono stati aggiornati i file **index.html** e **style.css**, integrando le modifiche necessarie per una gestione più chiara della piattaforma.  
+
+### **Decisioni prese**  
+- La sezione **"Direttive AI"** è stata posizionata **in cima alla pagina HTML**, per essere immediatamente visibile e facilmente accessibile.  
+- È stato definito un formato standardizzato per le sessioni, con sezioni dedicate a **Contesto Generale**, **Ultima Sessione** e **Domande per la Prossima Sessione**.  
+
+### **Test eseguiti**  
+- È stato controllato il sistema di **localStorage**, verificando il salvataggio e il recupero dei dati tra sessioni successive.  
+- Le modifiche visive sono state testate per garantire la coerenza dell'interfaccia con la nuova struttura.
+
+
+## Domande per Questa Sessione ##
+1. **Miglioramenti al flusso di esportazione**  
+   - Il processo di generazione del testo può essere reso più efficiente?  
+   - Quali miglioramenti potrebbero semplificare la copia delle informazioni da Bot AI alla pagina HTML?  
+
+2. **Ottimizzazione della memorizzazione dei dati**  
+   - La gestione di `localStorage` è sufficientemente affidabile per sessioni di lungo termine?  
+   - Quali strategie possono garantire una maggiore sicurezza nella persistenza delle informazioni?  
+
+3. **Personalizzazione dell'interfaccia**  
+   - Il design attuale della pagina risulta intuitivo per l’uso a lungo termine?  
+   - Sono necessarie nuove sezioni o funzionalità per migliorare l’esperienza utente?  
+
+4. **Integrazione con altre tecnologie**  
+   - L’utilizzo di API potrebbe migliorare il flusso di lavoro del sistema di coaching?  
+
+5. **Obiettivi principali**  
+ Nuova Struttura del Sistema
+ - GitHub – futura integrazione per il versionamento del codice.
+ - Strumenti Google – integrazione di Google Drive, Gmail e altri servizi utili alla gestione del sistema.
+ - È possibile automatizzare alcuni processi per ridurre la gestione manuale delle informazioni?
+
+
+### FINE CONTESTO ###
+
+Per favore, considera il contesto sopra e aiutami con le domande elencate.
