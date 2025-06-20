@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coaching con Bot AI - Theridel</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
@@ -82,22 +82,20 @@
 
         // Genera il testo da copiare per Bot AI
         function generateExport() {
+        const aiDirectives = document.getElementById('aiInstructions').value;
         const context = document.getElementById('generalContext').value;
         const lastSession = document.getElementById('lastSessionNotes').value;
         const questions = document.getElementById('questionsForNext').value;
 
-    let exportText = "### CONTESTO PER Bot AI ###\n";
-    exportText += "**Nota**: Durante la conversazione, chiamami Theridel.\n\n";
-
-    exportText += "## Ambiente di lavoro ##\n";
-    exportText += "Sto utilizzando una soluzione web-based composta da:\n";
-    exportText += "- Un file HTML5 che contiene l’interfaccia e la logica JavaScript.\n";
-    exportText += "- Un file CSS esterno per lo stile.\n\n";
-    exportText += "Se durante la conversazione è necessaria una modifica al comportamento o all’aspetto della pagina, chiedimi di fornirti i file HTML, CSS o JS.\n\n";
+    let exportText = "   # CONTESTO PER Bot AI #\n";
+    
+    exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
 
     exportText += "## Obiettivo del sistema ##\n";
     exportText += "Costruire un sistema che permetta di mantenere il contesto tra diverse sessioni di coaching, con me (Bot AI) e con te (Theridel) al centro dell’esperienza, evitando soluzioni che richiedano l’installazione di software desktop.\n\n";
 
+    exportText += "## Contesto Generale ##\n" + context + "\n\n";
+          
     exportText += "## Soluzioni esplorate ##\n";
     exportText += "1. **Documento Google**: repository centrale con copia manuale del contesto.\n";
     exportText += "2. **Pagina HTML5 locale**: utilizza `localStorage`, accessibile da qualsiasi dispositivo, con interfaccia user-friendly.\n\n";
@@ -109,8 +107,7 @@
     exportText += "- Funzione di copia negli appunti con un clic.\n";
     exportText += "- Design responsive.\n\n";
 
-    exportText += "## Contesto Generale ##\n" + context + "\n\n";
-    exportText += "## Ultima Sessione ##\n" + lastSession + "\n\n";
+        exportText += "## Ultima Sessione ##\n" + lastSession + "\n\n";
     exportText += "## Domande per Questa Sessione ##\n" + questions + "\n\n";
 
     exportText += "### FINE CONTESTO ###\n\n";
