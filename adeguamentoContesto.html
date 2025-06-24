@@ -14,12 +14,6 @@
         <p>Una piattaforma per mantenere il contesto delle conversazioni con Bot AI</p>
     </header>
 
-   <section id="aiDirectives">
-       <h2>Direttive AI</h2>
-       <textarea id="aiInstructions" placeholder="Inserisci qui le istruzioni operative per Bot AI..."></textarea>
-       <button onclick="saveAiDirectives()">Salva Direttive</button>
-   </section>
-
     <section id="context">
         <h2>Contesto Generale</h2>
         <textarea id="generalContext" placeholder="Inserisci qui gli obiettivi generali del tuo percorso..."></textarea>
@@ -52,7 +46,6 @@
     <script>
         // Carica i dati salvati quando la pagina si apre
            window.onload = function() {
-       document.getElementById('aiInstructions').value = localStorage.getItem('aiInstructions') || '';
        document.getElementById('generalContext').value = localStorage.getItem('generalContext') || '';
        document.getElementById('lastSessionNotes').value = localStorage.getItem('lastSessionNotes') || '';
        document.getElementById('questionsForNext').value = localStorage.getItem('questionsForNext') || '';
@@ -60,11 +53,7 @@
 
 
         // Funzioni per salvare i dati
-           function saveAiDirectives() {
-              localStorage.setItem('aiInstructions', document.getElementById('aiInstructions').value);
-              alert('Direttive AI salvate!');
-           }
-
+ 
            function saveContext() {
               localStorage.setItem('generalContext', document.getElementById('generalContext').value);
               alert('Contesto salvato!');
@@ -82,7 +71,7 @@
 
         // Genera il testo da copiare per Bot AI
         function generateExport() {
-        const aiDirectives = document.getElementById('aiInstructions').value;
+        const aiDirectives = localStorage.getItem('aiInstructions') || '';
         const context = document.getElementById('generalContext').value;
         const lastSession = document.getElementById('lastSessionNotes').value;
         const questions = document.getElementById('questionsForNext').value;

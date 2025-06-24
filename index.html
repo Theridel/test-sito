@@ -2,21 +2,39 @@
 <html lang="it">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theridel Coach</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theridel Coach</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-    <header>
-        <h1>Theridel Coach    Ver. 0.3.1</h1>
-        <p>Benvenuto nella piattaforma di coaching, accedi per gestire il tuo percorso.</p>
-    </header>
+    <header>
+        <h1>Theridel Coach Ver 0.3bis.1</h1>
+        <p>Benvenuto nella piattaforma di coaching, accedi per gestire il tuo percorso.</p>
+    </header>
 
-    <main>
-        <button onclick="location.href='adeguamentoContesto.html'">Accedi alla modifica del contesto</button>
-    </main>
+    <main>
+        <button onclick="location.href='adeguamentoContesto.html'">Accedi alla modifica del contesto</button>
+        <section id="aiDirectives">
+            <h2>Direttive AI</h2>
+            <textarea id="aiInstructions" placeholder="Inserisci qui le istruzioni operative per Bot AI..."></textarea>
+            <button onclick="saveAiDirectives()">Salva Direttive</button>
+        </section>
+    </main>
+
+    <script>
+        // Carica i dati salvati quando la pagina si apre
+        window.onload = function() {
+            document.getElementById('aiInstructions').value = localStorage.getItem('aiInstructions') || '';
+        };
+
+        // Funzione per salvare i dati
+        function saveAiDirectives() {
+            localStorage.setItem('aiInstructions', document.getElementById('aiInstructions').value);
+            alert('Direttive AI salvate!');
+        }
+    </script>
 </body>
 
 </html>
