@@ -80,24 +80,11 @@
     
     exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
 
-    exportText += "## Obiettivo del sistema ##\n";
-    exportText += "Costruire un sistema che permetta di mantenere il contesto tra diverse sessioni di coaching, con me (Bot AI) e con te (Theridel) al centro dell’esperienza, evitando soluzioni che richiedano l’installazione di software desktop.\n\n";
-
     exportText += "## Contesto Generale ##\n" + context + "\n\n";
           
-    exportText += "## Soluzioni esplorate ##\n";
-    exportText += "1. **Documento Google**: repository centrale con copia manuale del contesto.\n";
-    exportText += "2. **Pagina HTML5 locale**: utilizza `localStorage`, accessibile da qualsiasi dispositivo, con interfaccia user-friendly.\n\n";
+    exportText += "## Ultima Sessione ##\n" + lastSession + "\n\n";
 
-    exportText += "## Caratteristiche della soluzione attuale ##\n";
-    exportText += "- Salvataggio persistente dei dati nel browser.\n";
-    exportText += "- Sezioni dedicate per contesto, note e domande.\n";
-    exportText += "- Generazione automatica del testo da incollare all’inizio di ogni sessione.\n";
-    exportText += "- Funzione di copia negli appunti con un clic.\n";
-    exportText += "- Design responsive.\n\n";
-
-        exportText += "## Ultima Sessione ##\n" + lastSession + "\n\n";
-    exportText += "## Domande per Questa Sessione ##\n" + questions + "\n\n";
+    exportText += "## Domande per questa Sessione ##\n" + questions + "\n\n";
 
     exportText += "### FINE CONTESTO ###\n\n";
     exportText += "Per favore, considera il contesto sopra e aiutami con le domande elencate.";
