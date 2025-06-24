@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sviluppo Sistema - Theridel Coach</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Progetto: Sviluppo del Sistema</h1>
+        <p>Qui puoi tracciare il progresso e gli obiettivi del tuo progetto di sviluppo (hardware e software).</p>
+    </header>
+
+    <main>
+        <section id="systemProjectObjective">
+            <h2>Obiettivo del Progetto</h2>
+            <textarea id="systemObjective" placeholder="Definisci l'obiettivo generale del progetto di sviluppo del sistema..."></textarea>
+            <button onclick="saveSystemObjective()">Salva Obiettivo</button>
+        </section>
+
+        <section id="systemProjectInProgress">
+            <h2>Attività in Corso</h2>
+            <textarea id="systemInProgress" placeholder="Annota le attività attuali per lo sviluppo del sistema..."></textarea>
+            <button onclick="saveSystemInProgress()">Salva Attività</button>
+        </section>
+
+        <section id="systemProjectNextSteps">
+            <h2>Prossimi Passi</h2>
+            <textarea id="systemNextSteps" placeholder="Delinea i prossimi passi e gli obiettivi a breve termine per lo sviluppo..."></textarea>
+            <button onclick="saveSystemNextSteps()">Salva Passi</button>
+        </section>
+
+        <section id="systemProjectResources">
+            <h2>Risorse e Note</h2>
+            <textarea id="systemResources" placeholder="Aggiungi risorse, note o sfide relative al progetto..."></textarea>
+            <button onclick="saveSystemResources()">Salva Note</button>
+        </section>
+
+        <section id="exportSection">
+            <h2>Esporta Contesto per Bot AI (Progetto Sviluppo Sistema)</h2>
+            <button onclick="generateSystemProjectExport()">Genera Testo da Copiare</button>
+            <div id="exportResult" style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px; display: none;">
+                <h3>Copia questo testo all'inizio della prossima conversazione con Bot AI:</h3>
+                <div id="exportText" style="white-space: pre-wrap; background-color: #eee; padding: 15px; border-radius: 5px;"></div>
+                <button onclick="copyToClipboard()" style="margin-top: 10px;">Copia negli Appunti</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <button onclick="location.href='adeguamentoContesto.html'">Torna a Memorizzazione Contesto</button>
+        <button id="backToIndex" onclick="location.href='index.html'">Torna a Index</button>
+    </footer>
+
+    <script>
+        // Carica i dati salvati quando la pagina si apre
+        window.onload = function() {
+            document.getElementById('systemObjective').value = localStorage.getItem('systemObjective') || '';
+            document.getElementById('systemInProgress').value = localStorage.getItem('systemInProgress') || '';
+            document.getElementById('systemNextSteps').value = localStorage.getItem('systemNextSteps') || '';
+            document.getElementById('systemResources').value = localStorage.getItem('systemResources') || '';
+        };
+
+        // Funzioni per salvare i dati specifici del progetto Sviluppo Sistema
+        function saveSystemObjective() {
+            localStorage.setItem('systemObjective', document.getElementById('systemObjective').value);
+            alert('Obiettivo del progetto "Sviluppo Sistema" salvato!');
+        }
+
+        function saveSystemInProgress() {
+            localStorage.setItem('systemInProgress', document.getElementById('systemInProgress').value);
+            alert('Attività in corso salvate per "Sviluppo Sistema"!');
+        }
+
+        function saveSystemNextSteps() {
+            localStorage.setItem('systemNextSteps', document.getElementById('systemNextSteps').value);
+            alert('Prossimi passi salvati per "Sviluppo Sistema"!');
+        }
+
+        function saveSystemResources() {
+            localStorage.setItem('systemResources', document.getElementById('systemResources').value);
+            alert('Risorse e note salvate per "Sviluppo Sistema"!');
+        }
+
+        // Genera il testo da copiare per Bot AI, specifico per il progetto Sviluppo Sistema
+        function generateSystemProjectExport() {
+            const aiDirectives = localStorage.getItem('aiInstructions') || ''; // Direttive AI da localStorage
+            const systemObjective = document.getElementById('systemObjective').value;
+            const systemInProgress = document.getElementById('systemInProgress').value;
+            const systemNextSteps = document.getElementById('systemNextSteps').value;
+            const systemResources = document.getElementById('systemResources').value;
+
+            let exportText = "   # CONTESTO PER Bot AI #\n";
+            
+            // Aggiungi le Direttive AI (sempre in cima)
+            exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
+
+            // Aggiungi il contesto specifico di questa pagina/progetto
+            exportText += "## Contesto del Progetto Sviluppo Sistema ##\n";
+            exportText += "### Obiettivo del Progetto ###\n" + systemObjective + "\n\n";
+            exportText += "### Attività in Corso ###\n" + systemInProgress + "\n\n";
+            exportText += "### Prossimi Passi ###\n" + systemNextSteps + "\n\n";
+            exportText += "### Risorse e Note ###\n" + systemResources + "\n\n";
+
+            exportText += "### FINE CONTESTO ###\n\n";
+            exportText += "Per favore, considera il contesto sopra e aiutami con le domande elencate.";
+
+            document.getElementById('exportText').textContent = exportText;
+            document.getElementById('exportResult').style.display = 'block';
+        }
+
+        // Copia il testo negli appunti (questa funzione è riutilizzabile da adeguamentoContesto.html)
+        function copyToClipboard() {
+            const exportText = document.getElementById('exportText').textContent;
+            navigator.clipboard.writeText(exportText).then(function() {
+                alert('Testo copiato negli appunti!');
+            }, function() {
+                alert('Errore durante la copia. Prova a selezionare e copiare manualmente.');
+            });
+        }
+
+        // Funzione per la navigazione tra le pagine
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        // Attende il caricamento del DOM per assegnare eventi ai pulsanti di navigazione
+        document.addEventListener("DOMContentLoaded", function () {
+            let backToIndexButton = document.getElementById("backToIndex");
+            if (backToIndexButton) {
+                backToIndexButton.addEventListener("click", function () {
+                    navigateTo('index.html');
+                });
+            }
+            // Aggiungi qui altri listener per i bottoni se necessario
+        });
+    </script>
+</body>
+
+</html>
