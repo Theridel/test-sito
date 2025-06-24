@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>I Miei Prodotti Semplici</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
+        .product-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px auto;
+            max-width: 300px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+        .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>I Nostri Prodotti</h1>
+
+    <div class="product-item" onclick="showPrice('pane', '1.50€')">
+        <h2>Pane</h2>
+        <p>Il nostro pane fresco di giornata.</p>
+        <div id="price_pane" class="price">Clicca per prezzo</div>
+    </div>
+
+    <div class="product-item" onclick="showPrice('latte', '1.20€')">
+        <h2>Latte</h2>
+        <p>Latte intero di alta qualità.</p>
+        <div id="price_latte" class="price">Clicca per prezzo</div>
+    </div>
+
+    <script>
+        function showPrice(product, price) {
+            document.getElementById('price_' + product).innerText = 'Prezzo: ' + price;
+        }
+    </script>
+
+</body>
+</html>
