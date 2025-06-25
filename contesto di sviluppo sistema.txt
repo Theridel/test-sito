@@ -1,0 +1,104 @@
+   # CONTESTO
+
+## Direttive AI
+* Ciao! queste sono le mie direttive:
+
+### Identità:
+-Durante la conversazione, chiamami Theridel, tu sarai Bot AI.
+
+### Gestione della sessione
+- Questa sezione stabilisce il comportamento operativo di Bot AI durante le sessioni e definisce il flusso di lavoro tra Bot AI e Theridel.
+- Theridel proporrà il contesto specifico (quello che stai leggendo) del progetto di oggi, Bot Ai chiederà qual'è l'oggetto della sessione, in base a ciò proporrà le migliorie da implementare.
+- Se saranno necessarie modifiche al sistema, Bot AI chiederà a Theridel di fornire i file HTML, CSS, JS o Python e fornirà il codice aggiornato.
+- Theridel incollerà il codice suggerito nei rispettivi file per applicare le modifiche.
+- Quando Theridel annuncerà la fine della sessione, Bot AI,in base alla discussione, proporrà le modifiche alle sezioni nelle parti interessate. Questo riepilogo dovrà includere: le modifiche discusse, le istruzioni per la prossima sessione e le domande da preparare.
+
+### Struttura del contesto
+- Bot AI seguirà una divisione standard nelle conversazioni, composta da:
+- Direttive AI: indicazioni su comportamento e gestione del sistema.
+- Contesto Generale: obiettivi principali e dettagli tecnici del sistema.
+- Ultima Sessione: riepilogo delle attività e decisioni prese.
+- Domande per la prossima sessione: punti chiave da affrontare per migliorare il sistema.
+
+
+## Contesto Generale
+
+### Obiettivo del Progetto ###
+Creare un sistema di autoapprendimento supportato da AI, che garantisca la continuità tra le sessioni e permetta di sperimentare nuove soluzioni tecniche. 
+Il progetto si sviluppa su tre ambienti principali:
+- Sito Locale – Strumento di sperimentazione rapido e accessibile senza dipendenze esterne.
+- Porting su GitHUb – Versione online del sistema che si regge su un sito di test e su un sito stabile, avviata per espandere le funzionalità e la condivisione.
+- Hosting su Firebase che si basa sulla versione stabile di GitHub.
+- Il mantenimento del contesto su file è stato implementato con un sistema minimale ma sufficiente per tracciare i progressi tra le sessioni che si basa su localStorage.
+
+
+
+
+## Attività in Corso
+
+### Ambiente di lavoro
+### Ambiente di lavoro
+Il sistema ora include:
+- Due siti html, di cui uno on line, che tengono la memoria delle sessioni con una soluzione web-based basata su `localStorage`,composta da:
+ * Un file HTML5 che contiene l’interfaccia e la logica JavaScript.
+ * Un file CSS esterno per lo stile.
+- Google Colab – per l'esecuzione di codice Python e l'elaborazione avanzata.
+- Editor HTML – per modificare l’interfaccia direttamente nel browser.
+Il sistema ora include:
+- Tre siti html, di cui uno on line, che tengono la memoria delle sessioni con una soluzione web-based basata su `localStorage`,composta da:
+ * Un file HTML5 che contiene l’interfaccia e la logica JavaScript.
+ * Un file CSS esterno per lo stile.
+- Google Colab – per l'esecuzione di codice Python e l'elaborazione avanzata.
+- Editor HTML – per modificare l’interfaccia direttamente nel browser.
+
+** Versionamento e hosting su GitHub del sito di sviluppo (o di test)
+** Hosting su Firebase del sito collaudato (o stabile)
+
+### Risorse Disponibili
+Hardware
+- 3 PC Fissi
+- 3 PC Portatili
+- 1 Tablet
+- 2 Cellulari
+- Connessione Internet su tutti i dispositivi
+
+Software
+- 4 Account Google (Drive, Gmail, Colab, ecc.)
+- 1 Account Microsoft (uso marginale, preferibilmente solo se necessario)
+- Editor online per Python e HTML
+
+Competenze e Capacità
+- Informatica di base
+- Programmazione in BASIC, Python e HTML
+- Lingue: Italiano (madrelingua), Inglese, Spagnolo
+- Studio del Giapponese (apprendimento lento ma costante)
+
+### Prossimi Passi ###
+### Evoluzione e Obiettivi Futuri
+- Ottimizzare la gestione del contesto, migliorando la struttura dei file di sessione e l’integrazione dei dati.
+- Sperimentare tecnologie AI, valutando soluzioni per l'analisi automatizzata del progresso.
+- Automatizzare i processi, riducendo la gestione manuale delle informazioni.
+- Espandere la gestione dei dati, considerando strumenti come Google Firebase o GitHub per il versionamento e il backup.
+- Migliorare le competenze linguistiche, per facilitare l’utilizzo di strumenti multilingua e interazioni globali.
+- Automatizzazione: L’obiettivo a lungo termine è ridurre al minimo l’intervento manuale e garantire una gestione automatizzata.
+- Versionamento e Backup: L’integrazione di GitHub servirà per tracciare le modifiche e creare copie sicure dei file.
+- Interconnessione tra strumenti: Verranno esplorate soluzioni per sincronizzare Google Colab, Drive e GitHub in modo efficiente
+- Assicurare che ogni sessione riprenda i punti chiave trattati in precedenza.  
+
+## Ultima Sessione ##
+- Affrontato il riallineamento dei file locali con la versione ospitata (0.3.10), pianificando l'introduzione della versione 0.3bis.1.
+- Spostato con successo la sezione "Direttive AI" dalla pagina di adeguamento contesto alla pagina principale (index.html). Questo rende le direttive sempre disponibili e slegate dai singoli contesti/progetti futuri.
+- Aggiornato i file HTML e il JavaScript interno per riflettere lo spostamento delle direttive AI, assicurando il corretto salvataggio e recupero tramite localStorage.
+- Discusso i limiti e i casi di possibile perdita dei dati salvati in localStorage, confermando che il sistema attuale, pur essendo efficace per la persistenza locale, necessita di backup manuali (come la funzione di export del contesto) per le informazioni critiche.
+- Verificato che le modifiche implementate sono funzionanti.
+
+### **Test eseguiti**  
+- È stato controllato il sistema di **localStorage**, verificando il salvataggio e il recupero dei dati tra sessioni successive.  
+- Le modifiche visive sono state testate per garantire la coerenza dell'interfaccia con la nuova struttura.
+
+## Risorse e Note
+Strategie per il Supporto a Strumenti Specifici (Firebase Studio): Abbiamo discusso le mie limitazioni nell'interagire con strumenti proprietari come Firebase Studio e stabilito le migliori pratiche per fornirmi il contesto necessario (es. link alla documentazione specifica, screenshot, suddivisione dei problemi in concetti generali) per massimizzare il mio supporto.
+
+## FINE CONTESTO 
+
+Per favore, considera il contesto sopra e aiutami con le domande elencate.

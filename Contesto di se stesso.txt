@@ -1,0 +1,97 @@
+   # CONTESTO 
+
+## Direttive AI
+* Ciao! queste sono le mie direttive:
+
+### Identità:
+-Durante la conversazione, chiamami Theridel, tu sarai Bot AI.
+
+### Gestione della sessione
+- Questa sezione stabilisce il comportamento operativo di Bot AI durante le sessioni e definisce il flusso di lavoro tra Bot AI e Theridel.
+- Theridel proporrà il contesto specifico (quello che stai leggendo) del progetto di oggi, Bot Ai chiederà qual'è l'oggetto della sessione, in base a ciò proporrà le migliorie da implementare.
+- Se saranno necessarie modifiche al sistema, Bot AI chiederà a Theridel di fornire i file HTML, CSS, JS o Python e fornirà il codice aggiornato.
+- Theridel incollerà il codice suggerito nei rispettivi file per applicare le modifiche.
+- Quando Theridel annuncerà la fine della sessione, Bot AI,in base alla discussione, proporrà le modifiche alle sezioni nelle parti interessate. Questo riepilogo dovrà includere: le modifiche discusse, le istruzioni per la prossima sessione e le domande da preparare.
+
+### Struttura del contesto
+- Bot AI seguirà una divisione standard nelle conversazioni, composta da:
+- Direttive AI: indicazioni su comportamento e gestione del sistema.
+- Contesto Generale: obiettivi principali e dettagli tecnici del sistema.
+- Ultima Sessione: riepilogo delle attività e decisioni prese.
+- Domande per la prossima sessione: punti chiave da affrontare per migliorare il sistema.
+
+
+## Contesto Generale
+
+### Obbiettivo del progetto
+Conservare il contesto tra diverse sessioni di coaching tra noi, evitando soluzioni che richiedano l’installazione di software desktop. 
+Il sistema deve evolvere nel tempo, mantenendo però una struttura modulare e facilmente aggiornabile.
+
+### Ambiente di lavoro
+Il sistema ora include:
+- Due siti html, di cui uno on line, che tengono la memoria delle sessioni con una soluzione web-based basata su `localStorage`,composta da:
+ * Un file HTML5 che contiene l’interfaccia e la logica JavaScript.
+ * Un file CSS esterno per lo stile.
+- Google Colab – per l'esecuzione di codice Python e l'elaborazione avanzata.
+- Editor HTML – per modificare l’interfaccia direttamente nel browser.
+
+### Soluzioni esplorate ##
+Abbiamo esplorato come creare un sistema efficace per mantenere continuità nelle nostre conversazioni di coaching, concentrandoci su soluzioni web-based accessibili da qualsiasi dispositivo.
+1. **Documento Google**: repository centrale con copia manuale del contesto.
+2. **Pagina HTML5 locale**: utilizza `localStorage`, con interfaccia user-friendly.
+3. **Pagina HTML5 on line, come sopra ma accessibile da qualsiasi dispositivo.
+
+### Risorse Disponibili
+*Hardware
+- 3 PC Fissi
+- 3 PC Portatili
+- 1 Tablet
+- 2 Cellulari
+- Connessione Internet su tutti i dispositivi
+
+*Software
+- 4 Account Google (Drive, Gmail, Colab, ecc.)
+- 1 Account Microsoft (uso marginale, preferibilmente solo se necessario)
+- Editor online per Python e HTML
+
+*Competenze e Capacità
+- Informatica di base
+- Programmazione in BASIC, Python e HTML
+- Lingue: Italiano (madrelingua), Inglese, Spagnolo
+- Studio del Giapponese (apprendimento lento ma costante)## Caratteristiche della soluzione attuale ##
+- Salvataggio persistente dei dati nel browser.
+- Sezioni dedicate per contesto, note e domande.
+- Generazione automatica del testo da incollare all'inizio di ogni sessione.
+- Funzione di copia negli appunti con un clic.
+
+### Evoluzione e Obiettivi Futuri
+- Ottimizzare la gestione del contesto, migliorando la struttura dei file di sessione e l’integrazione dei dati.
+- Automatizzare i processi, riducendo la gestione manuale delle informazioni.
+
+### Caratteristiche della soluzione attuale ##
+- Salvataggio persistente dei dati nel browser.
+- Sezioni dedicate per contesto, note e domande.
+- Generazione automatica del testo da incollare all’inizio di ogni sessione.
+- Funzione di copia negli appunti con un clic.
+
+
+## Ultima Sessione ##
+- Affrontato il riallineamento dei file locali con la versione ospitata (0.3.10), pianificando l'introduzione della versione 0.3bis.1.
+- Spostato con successo la sezione "Direttive AI" dalla pagina di adeguamento contesto alla pagina principale (index.html). Questo rende le direttive sempre disponibili e slegate dai singoli contesti/progetti futuri.
+- Aggiornato i file HTML e il JavaScript interno per riflettere lo spostamento delle direttive AI, assicurando il corretto salvataggio e recupero tramite localStorage.
+- Discusso i limiti e i casi di possibile perdita dei dati salvati in localStorage, confermando che il sistema attuale, pur essendo efficace per la persistenza locale, necessita di backup manuali (come la funzione di export del contesto) per le informazioni critiche.
+- Verificato che le modifiche implementate sono funzionanti.
+
+### **Test eseguiti**  
+- È stato controllato il sistema di **localStorage**, verificando il salvataggio e il recupero dei dati tra sessioni successive.  
+- Le modifiche visive sono state testate per garantire la coerenza dell'interfaccia con la nuova struttura.
+
+## Domande per questa Sessione ##
+- Come possiamo implementare la sezione "Archivio Sessioni" per una migliore gestione della cronologia?
+- Quali sono i primi passi per una futura organizzazione del sistema per "Progetti"?
+- Ci sono altre ottimizzazioni che possiamo fare per l'export del contesto?
+-Design responsive.
+
+### FINE CONTESTO ###
+
+Per favore, considera il contesto sopra e aiutami con le domande elencate.
