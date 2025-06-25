@@ -44,55 +44,168 @@
     </section>
 
     <script>
-        // Carica i dati salvati quando la pagina si apre
-           window.onload = function() {
-       document.getElementById('generalContext').value = localStorage.getItem('generalContext') || '';
-       document.getElementById('lastSessionNotes').value = localStorage.getItem('lastSessionNotes') || '';
-       document.getElementById('questionsForNext').value = localStorage.getItem('questionsForNext') || '';
-       };
+        // Variabile per il nome del progetto corrente.
+        // Per questa pagina, useremo un nome fisso.
+        // In futuro, ogni pagina di progetto avrà il suo nome specifico.
+        const currentProjectName = "Contesto Generale"; 
+        let db; // Variabile globale per il database IndexedDB
 
+        // --- Funzioni per IndexedDB ---
+
+        /**
+         * Apre o crea il database IndexedDB.
+         * Se il database non esiste o la versione è nuova, crea l'object store 'sessions'.
+         */
+        function openDatabase() {
+            return new Promise((resolve, reject) => {
+                // Richiesta per aprire il database 'CoachingDB' alla versione 1
+                const request = indexedDB.open('CoachingDB', 1);
+
+                request.onerror = (event) => {
+                    console.error('Errore nell\'apertura di IndexedDB:', event.target.errorCode);
+                    reject('Errore IndexedDB');
+                };
+
+                request.onsuccess = (event) => {
+                    db = event.target.result; // Assegna il database alla variabile globale
+                    console.log('Database IndexedDB aperto con successo');
+                    resolve(db);
+                };
+
+                // Questo evento viene attivato solo quando il database viene creato per la prima volta
+                // o quando si specifica una versione più alta rispetto a quella esistente.
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    // Crea l'object store 'sessions' con 'id' come chiave primaria autoincrementante
+                    const objectStore = db.createObjectStore('sessions', { keyPath: 'id', autoIncrement: true });
+                    // Crea un indice per 'projectName' per ricerche future basate sul progetto
+                    objectStore.createIndex('projectName', 'projectName', { unique: false });
+                    // Crea un indice per 'timestamp' per ordinare le sessioni cronologicamente
+                    objectStore.createIndex('timestamp', 'timestamp', { unique: false });
+                    console.log('Object store "sessions" creato o aggiornato.');
+                };
+            });
+        }
+
+        /**
+         * Salva i dati di una sessione in IndexedDB.
+         * @param {string} projectName - Il nome del progetto a cui la sessione appartiene.
+         * @param {object} sessionData - L'oggetto contenente tutti i dati della sessione.
+         */
+        async function saveSessionToIndexedDB(projectName, sessionData) {
+            try {
+                if (!db) {
+                    await openDatabase(); // Assicurati che il database sia aperto
+                }
+
+                // Inizia una transazione di scrittura sull'object store 'sessions'
+                const transaction = db.transaction(['sessions'], 'readwrite');
+                const objectStore = transaction.objectStore('sessions');
+
+                // Crea un oggetto per il record della sessione
+                const sessionRecord = {
+                    projectName: projectName,
+                    timestamp: new Date().toISOString(), // Data e ora attuali in formato ISO
+                    sessionData: sessionData // I dati completi della sessione
+                };
+
+                // Aggiunge il record all'object store.
+                // L'ID verrà generato automaticamente grazie a autoIncrement: true.
+                const request = objectStore.add(sessionRecord);
+
+                request.onsuccess = () => {
+                    console.log('Sessione salvata in IndexedDB:', sessionRecord);
+                };
+
+                request.onerror = (event) => {
+                    console.error('Errore durante il salvataggio in IndexedDB:', event.target.error);
+                };
+
+                // Attendi che la transazione sia completata (successo o errore)
+                return new Promise((resolve, reject) => {
+                    transaction.oncomplete = () => resolve();
+                    transaction.onerror = (event) => reject(event.target.error);
+                });
+
+            } catch (error) {
+                console.error('Errore nella funzione saveSessionToIndexedDB:', error);
+            }
+        }
+        
+        // --- Funzioni per localStorage e integrazione IndexedDB ---
+
+        // Carica i dati salvati quando la pagina si apre
+        window.onload = async function() {
+            document.getElementById('generalContext').value = localStorage.getItem('generalContext') || '';
+            document.getElementById('lastSessionNotes').value = localStorage.getItem('lastSessionNotes') || '';
+            document.getElementById('questionsForNext').value = localStorage.getItem('questionsForNext') || '';
+            
+            // Tenta di aprire il database IndexedDB all'avvio
+            try {
+                await openDatabase();
+            } catch (error) {
+                console.warn('Impossibile aprire IndexedDB all\'avvio, procederà solo con localStorage:', error);
+            }
+        };
 
         // Funzioni per salvare i dati
- 
-           function saveContext() {
-              localStorage.setItem('generalContext', document.getElementById('generalContext').value);
-              alert('Contesto salvato!');
-           }
+        function saveContext() {
+            localStorage.setItem('generalContext', document.getElementById('generalContext').value);
+            alert('Contesto salvato!');
+        }
 
-           function saveLastSession() {
-              localStorage.setItem('lastSessionNotes', document.getElementById('lastSessionNotes').value);
-              alert('Note dell\'ultima sessione salvate!');
-           }
+        async function saveLastSession() {
+            const generalContext = document.getElementById('generalContext').value;
+            const lastSessionNotes = document.getElementById('lastSessionNotes').value;
+            const questionsForNext = document.getElementById('questionsForNext').value;
+            
+            // Salva su localStorage come fai già
+            localStorage.setItem('lastSessionNotes', lastSessionNotes);
+            alert('Note dell\'ultima sessione salvate!');
 
-           function saveQuestions() {
-              localStorage.setItem('questionsForNext', document.getElementById('questionsForNext').value);
-              alert('Domande salvate!');
-           }
+            // Ora, salva l'intera "sessione" su IndexedDB
+            const sessionData = {
+                generalContext: generalContext,
+                lastSessionNotes: lastSessionNotes,
+                questionsForNext: questionsForNext
+            };
+            
+            // Controlla se il database è aperto prima di tentare di salvare
+            if (db) {
+                await saveSessionToIndexedDB(currentProjectName, sessionData);
+            } else {
+                console.warn("IndexedDB non è disponibile o non è stato aperto, salvataggio solo su localStorage.");
+            }
+        }
+
+        function saveQuestions() {
+            localStorage.setItem('questionsForNext', document.getElementById('questionsForNext').value);
+            alert('Domande salvate!');
+        }
 
         // Genera il testo da copiare per Bot AI
         function generateExport() {
-        const aiDirectives = localStorage.getItem('aiInstructions') || '';
-        const context = document.getElementById('generalContext').value;
-        const lastSession = document.getElementById('lastSessionNotes').value;
-        const questions = document.getElementById('questionsForNext').value;
+            const aiDirectives = localStorage.getItem('aiInstructions') || '';
+            const context = document.getElementById('generalContext').value;
+            const lastSession = document.getElementById('lastSessionNotes').value;
+            const questions = document.getElementById('questionsForNext').value;
 
-    let exportText = "   # CONTESTO PER Bot AI #\n";
-    
-    exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
+            let exportText = "   # CONTESTO PER Bot AI #\n";
+            
+            exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
 
-    exportText += "## Contesto Generale ##\n" + context + "\n\n";
-          
-    exportText += "## Ultima Sessione ##\n" + lastSession + "\n\n";
+            exportText += "## Contesto Generale ##\n" + context + "\n\n";
+                
+            exportText += "## Ultima Sessione ##\n" + lastSession + "\n\n";
 
-    exportText += "## Domande per questa Sessione ##\n" + questions + "\n\n";
+            exportText += "## Domande per questa Sessione ##\n" + questions + "\n\n";
 
-    exportText += "### FINE CONTESTO ###\n\n";
-    exportText += "Per favore, considera il contesto sopra e aiutami con le domande elencate.";
+            exportText += "### FINE CONTESTO ###\n\n";
+            exportText += "Per favore, considera il contesto sopra e aiutami con le domande elencate.";
 
-    document.getElementById('exportText').textContent = exportText;
-    document.getElementById('exportResult').style.display = 'block';
-}
-
+            document.getElementById('exportText').textContent = exportText;
+            document.getElementById('exportResult').style.display = 'block';
+        }
 
         // Copia il testo negli appunti
         function copyToClipboard() {
