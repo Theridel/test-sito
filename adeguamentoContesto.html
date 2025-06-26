@@ -81,11 +81,11 @@
                         keyPath: 'id',
                         autoIncrement: true
                     });
-                    // Crea un indice per 'projectName' per ricerche future basate sul progetto
+                    // Crea un indice per 'projectName' per ricerche future basate sul progetto (potrebbe non servire per questo caso specifico ma lo teniamo)
                     objectStore.createIndex('projectName', 'projectName', {
                         unique: false
                     });
-                    // Crea un indice per 'timestamp' per ordinare le sessioni cronologicamente
+                    // Crea un indice per 'timestamp' per ordinare le sessioni cronologicamente e trovare il più recente
                     objectStore.createIndex('timestamp', 'timestamp', {
                         unique: false
                     });
@@ -95,11 +95,11 @@
         }
 
         /**
-         * Salva i dati di una sessione (solo lastSessionNotes per ora) in IndexedDB.
-         * @param {string} projectName - Il nome del progetto a cui la sessione appartiene.
+         * Salva solo le lastSessionNotes in IndexedDB come un nuovo record.
+         * @param {string} projectName - Il nome del progetto (per coerenza, anche se non strettamente necessario per questo salvataggio singolo).
          * @param {string} lastSessionNotes - Le note dell'ultima sessione da salvare.
          */
-        async function saveLastSessionToIndexedDB(projectName, lastSessionNotes) {
+        async function saveLastSessionNotesToIndexedDB(projectName, lastSessionNotes) {
             try {
                 if (!db) {
                     await openDatabase(); // Assicurati che il database sia aperto
@@ -109,9 +109,9 @@
                 const transaction = db.transaction(['sessions'], 'readwrite');
                 const objectStore = transaction.objectStore('sessions');
 
-                // Crea un oggetto per il record della sessione
+                // Crea un oggetto per il record che include solo le note e i metadati
                 const sessionRecord = {
-                    projectName: projectName,
+                    projectName: projectName, // Salviamo il nome del progetto
                     timestamp: new Date().toISOString(), // Data e ora attuali in formato ISO
                     lastSessionNotes: lastSessionNotes // Salviamo solo le note specifiche qui
                 };
@@ -135,24 +135,23 @@
                 });
 
             } catch (error) {
-                console.error('Errore nella funzione saveLastSessionToIndexedDB:', error);
+                console.error('Errore nella funzione saveLastSessionNotesToIndexedDB:', error);
             }
         }
 
         /**
-         * Recupera il record più recente di lastSessionNotes per il progetto corrente da IndexedDB.
-         * Si basa sull'indice 'timestamp' per trovare l'ultimo record.
-         * @returns {Promise<object|null>} - Restituisce l'oggetto record più recente o null se non trovato.
+         * Recupera il record più recente (con timestamp più alto) da IndexedDB.
+         * @returns {Promise<object|null>} - Restituisce l'oggetto record più recente o null se non trovato/errore.
          */
-        async function getLatestSessionFromIndexedDB() {
+        async function getLatestRecordFromIndexedDB() {
             try {
                 if (!db) {
-                     // Tenta di aprire il database se non lo è già
+                    // Tenta di aprire il database se non lo è già
                     try {
-                         await openDatabase();
+                        await openDatabase();
                     } catch (error) {
-                         console.warn('Impossibile aprire IndexedDB per la lettura:', error);
-                         return null; // Restituisce null se non si riesce ad aprire il DB
+                        console.warn('Impossibile aprire IndexedDB per la lettura:', error);
+                        return null; // Restituisce null se non si riesce ad aprire il DB
                     }
                 }
 
@@ -172,7 +171,14 @@
                         // Il primo record trovato in ordine decrescente è il più recente
                         latestRecord = cursor.value;
                         // Non c'è bisogno di continuare, chiudi il cursore
-                        cursor.continue(); // Serve per chiudere implicitamente il cursore dopo aver letto il primo
+                        // Il cursor.continue() senza argomenti non chiude implicitamente,
+                        // ma leggere il primo elemento e poi non chiamare continue(key)
+                        // fa sì che il 'complete' della transazione si attivi dopo questo
+                        // successo. Un modo più esplicito sarebbe fermare la transazione
+                        // o usare un metodo specifico per prendere l'ultimo, ma il cursore
+                        // inverso e prendere il primo è un pattern comune.
+                        // Per semplicità e chiarezza per questo caso, prendiamo il primo
+                        // e lasciamo che la transazione completi naturalmente.
                     }
                 };
 
@@ -180,7 +186,7 @@
                     console.error('Errore durante la lettura da IndexedDB:', event.target.error);
                 };
 
-                 // Attendi che la transazione sia completata e poi restituisci il record trovato
+                // Attendi che la transazione sia completata e poi restituisci il record trovato
                 return new Promise((resolve, reject) => {
                     transaction.oncomplete = () => resolve(latestRecord);
                     transaction.onerror = (event) => reject(event.target.error);
@@ -188,7 +194,7 @@
 
 
             } catch (error) {
-                console.error('Errore nella funzione getLatestSessionFromIndexedDB:', error);
+                console.error('Errore nella funzione getLatestRecordFromIndexedDB:', error);
                 return null; // Restituisce null in caso di errori critici
             }
         }
@@ -223,11 +229,11 @@
             localStorage.setItem('lastSessionNotes', lastSessionNotes);
             alert('Note dell\'ultima sessione salvate (via localStorage)!');
 
-            // Ora, salva le note specifiche su IndexedDB
+                      // Ora, salva solo le note specifiche su IndexedDB
             // Controlla se il database è aperto prima di tentare di salvare
             if (db) {
                 try {
-                    await saveLastSessionToIndexedDB(currentProjectName, lastSessionNotes);
+                    await saveLastSessionNotesToIndexedDB(currentProjectName, lastSessionNotes);
                     alert('Note dell\'ultima sessione salvate (via IndexedDB)!');
                 } catch (error) {
                     console.error("Errore durante il salvataggio su IndexedDB:", error);
@@ -247,45 +253,56 @@
         // Genera il testo da copiare per Bot AI
         async function generateExport() { // Resa asincrona per poter attendere la lettura da IndexedDB
             const aiDirectives = localStorage.getItem('aiInstructions') || ''; // Assumendo che le direttive siano in localStorage
-            const context = document.getElementById('generalContext').value;
-            const lastSessionLS = document.getElementById('lastSessionNotes').value; // Note da localStorage
-            const questions = document.getElementById('questionsForNext').value;
+            const context = document.getElementById('generalContext').value; // Da localStorage
+            const lastSessionLS = document.getElementById('lastSessionNotes').value; // Da localStorage
+            const questions = document.getElementById('questionsForNext').value; // Da localStorage
 
-            // Recupera le note da IndexedDB
-            let lastSessionIDB = null;
+            // Recupera il record più recente da IndexedDB
             let idbRecord = null;
             try {
-                idbRecord = await getLatestSessionFromIndexedDB();
-                if(idbRecord) {
-                   lastSessionIDB = idbRecord.lastSessionNotes;
-                } else {
-                   lastSessionIDB = "Nessun dato trovato in IndexedDB.";
-                }
+                idbRecord = await getLatestRecordFromIndexedDB();
             } catch (error) {
                  console.error("Errore nel recupero da IndexedDB per l'export:", error);
-                 lastSessionIDB = "Errore nel recupero da IndexedDB.";
             }
 
 
-            let exportText = "   # CONTESTO PER Bot AI #\n";
+            let exportText = "   # CONTESTO PER Bot AI #\n\n"; // Aggiunto a capo per leggibilità
 
+            // Sezioni da localStorage
             exportText += "## Direttive AI ##\n" + aiDirectives + "\n\n";
-
             exportText += "## Contesto Generale ##\n" + context + "\n\n";
-
-            exportText += "## Ultima Sessione (da localStorage) ##\n" + lastSessionLS + "\n\n";
-
-            exportText += "## Ultima Sessione (da IndexedDB) ##\n";
-             if(idbRecord) {
-                 exportText += "ID: " + idbRecord.id + "\n";
-                 exportText += "Timestamp: " + idbRecord.timestamp + "\n";
-                 exportText += "Note: " + lastSessionIDB + "\n\n";
-             } else {
-                 exportText += lastSessionIDB + "\n\n"; // Mostra il messaggio di errore o non trovato
-             }
-
-
+            exportText += "## Ultima Sessione ##\n" + lastSessionLS + "\n\n";
             exportText += "## Domande per questa Sessione ##\n" + questions + "\n\n";
 
+            // Sezione aggiuntiva da IndexedDB (solo Last Session Notes)
+            exportText += "## Ultima Sessione (da IndexedDB) ##\n";
+             if(idbRecord && idbRecord.lastSessionNotes) { // Controlla se il record esiste e ha le note
+                 exportText += "ID: " + idbRecord.id + "\n";
+                 exportText += "Timestamp: " + idbRecord.timestamp + "\n";
+                 exportText += "Note: " + idbRecord.lastSessionNotes + "\n"; // Prende le note dal record
+             } else {
+                 exportText += "Nessun dato delle ultime sessioni trovato in IndexedDB o errore nel recupero.\n";
+             }
+            exportText += "\n"; // Aggiunto a capo per separare
+
             exportText += "### FINE CONTESTO ###\n\n";
-            exportText += "Per favor
+            exportText += "Per favore, considera il contesto sopra e aiutami con le domande elencate.";
+
+
+            document.getElementById('exportText').textContent = exportText;
+            document.getElementById('exportResult').style.display = 'block';
+        }
+
+        // Copia il testo negli appunti
+        function copyToClipboard() {
+            const exportText = document.getElementById('exportText').textContent;
+            navigator.clipboard.writeText(exportText).then(function() {
+                alert('Testo copiato negli appunti!');
+            }, function() {
+                alert('Errore durante la copia. Prova a selezionare e copiare manualmente.');
+            });
+        }
+    </script>
+<button id="backToIndex" onclick="location.href='index.html'">Torna a Index</button>
+</body>
+</html>
