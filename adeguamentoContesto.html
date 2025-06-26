@@ -277,7 +277,7 @@
             // Sezione aggiuntiva da IndexedDB (solo Last Session Notes)
             exportText += "## Ultima Sessione (da IndexedDB) ##\n";
              if(idbRecord && idbRecord.lastSessionNotes) { // Controlla se il record esiste e ha le note
-                 exportText += "ID: " + idbRecord.id + "\n";
+                 exportText += "ID: " + idbRecord.id;
                  exportText += "Timestamp: " + idbRecord.timestamp + "\n";
                  exportText += "Note: " + idbRecord.lastSessionNotes + "\n"; // Prende le note dal record
              } else {
