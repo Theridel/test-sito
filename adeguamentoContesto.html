@@ -75,7 +75,7 @@
                 // Questo evento viene attivato solo quando il database viene creato per la prima volta
                 // o quando si specifica una versione più alta rispetto a quella esistente.
                 request.onupgradeneeded = (event) => {
-                    const db = event.target.result;
+                    db = event.target.result;
                     // Crea l'object store 'sessions' con 'id' come chiave primaria autoincrementante
                     const objectStore = db.createObjectStore('sessions', {
                         keyPath: 'id',
