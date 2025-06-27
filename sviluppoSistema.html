@@ -55,7 +55,8 @@
         <button id="backToIndex" onclick="location.href='index.html'">Torna a Index</button>
     </footer>
 
-    <script>
+    <script type="module">
+        import { db } from './assets/js/indexedDB.js';
         // Carica i dati salvati quando la pagina si apre
         window.onload = function() {
             document.getElementById('systemObjective').value = localStorage.getItem('systemObjective') || '';

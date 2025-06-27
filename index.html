@@ -24,7 +24,8 @@
         </section>
     </main>
 
-    <script>
+    <script type="module">
+        import { db } from './assets/js/indexedDB.js';
         // Carica i dati salvati quando la pagina si apre
         window.onload = function() {
             document.getElementById('aiInstructions').value = localStorage.getItem('aiInstructions') || '';

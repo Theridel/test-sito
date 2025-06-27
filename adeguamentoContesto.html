@@ -43,12 +43,12 @@
         </div>
     </section>
 
-    <script>
+    <script type="module">
+        import { db } from './assets/js/indexedDB.js';
         // Variabile per il nome del progetto corrente.
         // Per questa pagina, useremo un nome fisso.
         // In futuro, ogni pagina di progetto avrà il suo nome specifico.
         const currentProjectName = "Contesto Generale";
-        let db; // Variabile globale per il database IndexedDB
 
         // --- Funzioni per IndexedDB ---
 
