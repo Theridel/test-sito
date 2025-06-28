@@ -1,5 +1,4 @@
 let db; // Variabile globale per il database IndexedDB
-export { db };
 
         // --- Funzioni per IndexedDB ---
 
@@ -46,4 +45,4 @@ export { db };
         }
 
 
-        export { db, openDatabase };
+    export { db, openDatabase };
